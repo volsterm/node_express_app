@@ -4,12 +4,17 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser');
 
+var customer = require('./routes/customer'),
+    seller = require('./routes/seller');
+
 var app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use('/customer', customer);
+app.use('/seller', seller);
 
 app.use((req, res, next) => {
     var err = new Error('Not Found');
@@ -21,13 +26,15 @@ app.use((req, res, next) => {
 if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
         res.status(err.status || 500);
-        res.json(err).end();
+        console.error(err);
+        res.json(err);
     });
 }
 
 app.use((err, req, res, next) => {
     res.status(err.status || 500);
-    res.json({error: err.message}).end();
+    console.error(err.message);
+    res.json({error: err.message});
 });
 
 module.exports = app;
