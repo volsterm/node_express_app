@@ -2,7 +2,11 @@ var express = require('express'),
     path = require('path'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
+    redisStore = require('connect-redis')(session),
+    dbs = require('./libs/dbs'),
+    config = require('./config/' + (process.env.NODE_ENV || 'development'));
 
 var customer = require('./routes/customer'),
     seller = require('./routes/seller');
@@ -12,6 +16,13 @@ var app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+app.use(session({
+    secret: config.sessionSecret,
+    store: new redisStore({client: dbs.redis}),
+    saveUninitialized: false,
+    resave: false
+}));
 
 app.use('/customer', customer);
 app.use('/seller', seller);

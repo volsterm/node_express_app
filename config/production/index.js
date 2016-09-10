@@ -16,7 +16,8 @@ var config = {
     sms : {
         api_id : 'YOUR_API_ID',  //Выдается при регистрации на sms.ru
         test : 1
-    }
+    },
+    sessionSecret: 'secretKey'
 };
 
 module.exports =  config;
