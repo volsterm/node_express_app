@@ -5,3 +5,6 @@ exports.checkCustomerAbsence = phone =>
 
 exports.checkSellerAbsence = phone =>
     mysql.query('CALL checkSellerAbsenceByPhone(?)', [phone]);
+
+exports.register = (body, role) =>
+    mysql.query('CALL register(?,?,?,?)', [body.phone, body.name, body.password, role]);
