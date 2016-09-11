@@ -3,7 +3,8 @@ var express = require('express'),
     smsCode = require('../repo/smsCodeRepository'),
     user = require('../repo/userRepository'),
     sms = require('../libs/smsLib'),
-    customError = require('../libs/customError');
+    customError = require('../libs/customError'),
+    passport = require('passport');
 
 router.post('/', (req, res, next) =>
     smsCode.get(req.body.phone)
@@ -24,5 +25,10 @@ router.post('/sms', (req, res, next) =>
         .then(code  => sms.send(req.body.phone, code))
         .then(() => res.end())
         .catch(err => next(err)));
+
+router.post('/login', (req, res, next) =>
+    {req.body.role = 'customer'; next()},
+    passport.authenticate('local'),
+    (req, res) => res.end());
 
 module.exports = router;
