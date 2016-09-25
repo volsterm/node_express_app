@@ -10,9 +10,9 @@ router.post('/', (req, res, next) =>
     smsCode.get(req.body.phone)
         .then(result => {
             if(!result)
-                return Promise.reject(new customError('Код просрочен', 400));
+                return Promise.reject(new customError('Code expired', 400));
             if(result.code != req.body.code)
-                return Promise.reject(new customError('Неверный код', 400));
+                return Promise.reject(new customError('Wrong code', 400));
             return user.register(req.body, 'seller');
         })
         .then(() => smsCode.remove(req.body.phone))

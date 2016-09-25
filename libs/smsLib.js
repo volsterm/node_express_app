@@ -18,7 +18,7 @@ exports.send = (phone, text) => {
             var responceCode = result.split('\n')[0];
             if(responceCode != '100')
                 return Promise.reject(new customError(
-                    `Ошибка отправки смс, код ошибки: ${responceCode}`));
+                    `Error sending sms, error code: ${responceCode}`));
             return Promise.resolve();
         })
 };

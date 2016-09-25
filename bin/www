@@ -28,7 +28,7 @@ var server = http.createServer(app);
  */
 
 dbs.init().then(() => {
-  console.log('Соединения с базами данных установлены успешно');
+  console.log('Database connections have been established successfully');
   server.listen(port);
 }).catch(err => {
   console.log(err);
