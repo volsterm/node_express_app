@@ -7,12 +7,9 @@ var express = require('express'),
     passport = require('passport');
 
 router.post('/', (req, res, next) =>
-    smsCode.get(req.body.phone)
+    smsCode.get(req.body.phone, req.body.code)
         .then(result => {
-            if(!result)
-                return Promise.reject(new customError('Код просрочен', 400));
-            if(result.code != req.body.code)
-                return Promise.reject(new customError('Неверный код', 400));
+            if(!result) return Promise.reject(new customError('Wrong code', 400));
             return user.register(req.body, 'customer');
         })
         .then(() => smsCode.remove(req.body.phone))

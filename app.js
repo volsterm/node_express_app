@@ -45,7 +45,7 @@ passport.use('local', new localStrategy({
     },
     (req, phone, password, done) =>
         User.login(req.body)
-            .then(userIdAndRoleId => done(null, userIdAndRoleId))
+            .then(user => done(null, {id: user.id, roleId: user.roleId}))
             .catch(err => done(err))
 ));
 
